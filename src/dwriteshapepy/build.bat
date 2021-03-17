@@ -1,0 +1,1 @@
+cython -a --cplus dwriteshape.pyx
