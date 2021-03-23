@@ -1,14 +1,85 @@
 # Project
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+DWriteShapePy is a Python extension built using Cython. It provides streamlined bindings for
+the DirectWrite shaping engine. The model is similar to the model provided by uHarfBuzz but some 
+differences because of differences in the API models between DirectWrite and HarfBuzz. 
 
-As the maintainer of this project, please make a few updates:
+DWriteShapePy was initially developed to support a Python based font testing environment where similar tests are 
+executed using both DirectWrite and HarfBuzz. 
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+The repo contains two methods to build the extension. The standard Python/Cython method using setup.py and a 
+Visual Studio solution. Setup.py is used to build, install and create distribution packages. The Visual Studio solution 
+is for cross mode debugging of the extension as well as the client. 
+
+Setup.py builds the package with the extension name “dwriteshapepy”. 
+Useful command lines when using setup.py to build, install and create distribution packages are:
+
+Build the extension on local machine.
+Python setup.py build 
+
+Install the built extension into current Python environment.
+Python setup.py install
+
+Create distribution package.
+Python setup.py bdist_wheel
+
+The dwriteshape directory in the repo contains the Visual Studio solution and projects. The dwriteshape solution contains two 
+projects. The dwriteshape project and the client project. The dwriteshape project builds the package as the extension name “dwriteshape”. 
+Note the difference between extension build using setup.py. This is necessary because Visual Studio does not have same level 
+of control as setup.py and seems to require the extension name be the same as that of the .pyx file. It could also be useful in 
+avoiding name collisions. The Visual Studio project should only be used to create debug builds of the extension for development. 
+The client project is a simple test client for the dwriteshape project. 
+
+In order to build the extension with the Visual Studio project you must first use Cython to create the .cpp file from the .pyx and .pxd files. 
+There is a build.bat in the src\dwriteshapepy directory to do this.  The generated file dwriteshape.cpp should be deleted if switching 
+from building with Visual Studio or setup.py or visa versa. When building with setup.py the .cpp file is generated automatically so build.bat 
+is not necessary. 
+
+The directory src\cpp contains the DWrite abstraction layer of the extension basically plumbing between the exported API and DWrite. 
+This code is common between build methods. 
+
+### Example
+
+```python
+import sys
+import dwriteshapepy as dw 
+from pathlib import Path
+
+with open(sys.argv[1], 'rb') as fontfile:
+    fontdata = fontfile.read()
+
+text = sys.argv[2]
+
+face = hb.Face(fontdata)
+font = dw.Font(face)
+upm = font.upem
+print(upm)
+
+buf = dw.Buffer()
+buf.add_str(text)
+    
+features = {"kern": True, "liga": True}
+dw.shape(font, buf, features)
+glyph_names = [font.glyph_to_string(g.codepoint) for g in buf.glyph_infos]
+infos = [(g.codepoint, g.cluster) for g in buf.glyph_infos]
+print(glyph_names)
+print(infos)
+
+advance = [(adv.x_advance, adv.y_advance, adv.x_offset, adv.y_offset) for adv in buf.glyph_positions]
+print(advance)
+
+infos = buf.glyph_infos
+positions = buf.glyph_positions
+
+for info, pos in zip(infos, positions):
+    gid = info.codepoint
+    cluster = info.cluster
+    x_advance = pos.x_advance
+    x_offset = pos.x_offset
+    y_offset = pos.y_offset
+    print(f"gid{gid}={cluster}@{x_advance},{x_offset}+{y_offset}")
+
+```
 
 ## Contributing
 

@@ -1,0 +1,50 @@
+{
+  "registrations": [
+    {
+      "component": {
+        "type": "git",
+        "git": {
+          "name": "harfbuzz",
+          "repositoryUrl": "https://github.com/harfbuzz/harfbuzz",
+          "commitHash": "1fb7f3bda6de03279e2971086b6935a0970f4b98"
+        }
+      },
+      "DevelopmentDependency": false,
+      "version": "2.7.4"
+    },
+    {
+      "component": {
+        "type": "git",
+        "git": {
+          "name": "uharfbuzz",
+          "repositoryUrl": "https://github.com/harfbuzz/uharfbuzz",
+          "commitHash": "e3e0927bb93ed92bcdfe81e7ad9af3d78ccc74fb"
+        }
+      },
+      "DevelopmentDependency": false,
+      "version": "v0.14.0"
+    },
+    {
+      "component": {
+        "type": "git",
+        "git": {
+          "name": "adobe-fonts/adobe-blank",
+          "repositoryUrl": "https://github.com/adobe-fonts/adobe-blank",
+          "commitHash": "19279e6f6707408fd93091d157b7836259bcbd21"
+        }
+      },
+      "DevelopmentDependency": true
+    },
+    {
+      "component": {
+        "type": "pip",
+        "pip": {
+          "name": "Cython",
+          "version": "0.20.21"
+        }
+      },
+      "DevelopmentDependency": true
+    }
+
+  ]
+}
