@@ -43,6 +43,11 @@ setup(
     author_email="paulli@microsoft.com",
     url="https://github.com/microsoft/DWriteShapePy",
     license="MIT",
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: Microsoft :: Windows :: Windows 10",
+    ],
     package_dir={"": "src"},
     packages=["dwriteshapepy"],
     zip_safe=False,
