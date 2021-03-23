@@ -8,8 +8,8 @@ from Cython.Build import cythonize
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-# Get the long description from the README file
-with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
+# Get the long description from the pypi.md file
+with open(os.path.join(here, 'pypi.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 define_macros = [('UNICODE', 1), ('_UNICODE', 1)]
@@ -36,12 +36,12 @@ extension = Extension(
 setup(
     name="dwriteshapepy",
     version= '1.0.0',
-    description="Streamlined Cython bindings for DWrite modeled after uharfbuzz ",
+    description="Python extension for Windows DirectWrite shaping, modeled after uharfbuzz ",
     long_description=long_description,
     long_description_content_type='text/markdown',
     author="Paul Linnerud",
     author_email="paulli@microsoft.com",
-    url="https://www.microsoft.com/typography/",
+    url="https://github.com/microsoft/DWriteShapePy",
     license="MIT",
     package_dir={"": "src"},
     packages=["dwriteshapepy"],
