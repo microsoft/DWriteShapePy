@@ -25,8 +25,8 @@ jobs:
       CIBW_ARCHS: AMD64
       CIBW_PLATFORM: windows
       CIBW_PROJECT_REQUIRES_PYTHON: ">=3.7"
-      #CIBW_TEST_REQUIRES: pytest
-      #CIBW_TEST_COMMAND: "pytest {project}/tests"
+      CIBW_TEST_REQUIRES: pytest
+      CIBW_TEST_COMMAND: "pytest {project}/tests"
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
