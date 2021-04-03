@@ -49,9 +49,17 @@ jobs:
       - name: Build Wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         
-      - name: Upload Build Artifacts
+      - name: Build Source Distribution 
+        run: python setup.py sdist
+        
+      - name: Upload Wheels
         uses: actions/upload-artifact@v2
         with:
           path: ./wheelhouse/*.whl
+          
+      - name: Upload Source Distribution
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./dist/*.zip
 
       
