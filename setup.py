@@ -35,7 +35,7 @@ extension = Extension(
 
 setup(
     name="dwriteshapepy", 
-    version= '1.0.0',
+    version= '1.0.1',
     description="Python extension for Windows DirectWrite shaping, modeled after uharfbuzz ",
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -51,7 +51,7 @@ setup(
     package_dir={"": "src"},
     packages=["dwriteshapepy"],
     zip_safe=False,
-    python_requires=">=3.5",
+    python_requires=">=3.7",
     ext_modules = cythonize(
         extension,
         annotate=bool(int(os.environ.get('CYTHON_ANNOTATE', '0'))),
