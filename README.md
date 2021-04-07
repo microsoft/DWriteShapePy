@@ -50,7 +50,7 @@ with open(sys.argv[1], 'rb') as fontfile:
 
 text = sys.argv[2]
 
-face = hb.Face(fontdata)
+face = dw.Face(fontdata)
 font = dw.Font(face)
 upm = font.upem
 print(upm)

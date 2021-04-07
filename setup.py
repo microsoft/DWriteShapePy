@@ -35,7 +35,7 @@ extension = Extension(
 
 setup(
     name="dwriteshapepy", 
-    version= '1.0.1',
+    version= '1.0.2',
     description="Python extension for Windows DirectWrite shaping, modeled after uharfbuzz ",
     long_description=long_description,
     long_description_content_type='text/markdown',
