@@ -59,7 +59,7 @@ jobs:
           path: ./dist/*.zip
 
   upload_pypi:
-     need: [build-n-publish]
+     needs: [build-n-publish]
      runs-on: windows-2019
      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
      steps:
