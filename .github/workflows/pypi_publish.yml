@@ -60,7 +60,7 @@ jobs:
 
   upload_pypi:
      needs: [build-n-publish]
-     runs-on: windows-2019
+     runs-on: ubuntu-latest
      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
      steps:
       - uses: actions/download-artifact@v2
