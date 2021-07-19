@@ -57,4 +57,7 @@ setup(
         annotate=bool(int(os.environ.get('CYTHON_ANNOTATE', '0'))),
         compiler_directives={"linetrace": linetrace},
     ),
+    entry_points={
+        'console_scripts': [ "dw-shape = dwriteshapepy.__main__:main" ]
+    }
 )
