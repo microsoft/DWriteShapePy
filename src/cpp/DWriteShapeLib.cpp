@@ -304,7 +304,8 @@ bool Font_::SetVariations(const std::vector<hb_variation_t> &axisValues)
 	for (auto& it : axisValues)
 	{
 		DWRITE_FONT_AXIS_VALUE value;
-		value.axisTag = static_cast<DWRITE_FONT_AXIS_TAG>(it.tag);
+		// DWrite tags are opposite HarfBuzz tags
+		value.axisTag = static_cast<DWRITE_FONT_AXIS_TAG>(SWAPL(it.tag));
 		value.value =  it.value;
 		dWriteAxisValues.push_back(value); 
 	}
