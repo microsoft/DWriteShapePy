@@ -58,6 +58,16 @@ namespace DWriteShapeInternal
 
 	Font::~Font()
 	{		
+		 // Clear any previous features
+		for (auto& it : features_)
+		{
+			if(it.features != nullptr)
+			{
+			    delete[] it.features; 
+			}
+		}
+		features_.clear();
+
 		SafeRelease(&fontFaceReference_);
 		SafeRelease(&fontFace_);	
 
@@ -111,7 +121,34 @@ namespace DWriteShapeInternal
 	{
 		fontRealized_ = false; 
 
-		features_ = features;
+        // Clear any previous features
+		for (auto& it : features_)
+		{
+			if(it.features != nullptr)
+			{
+			    delete[] it.features; 
+			}
+		}
+		features_.clear();
+
+        // Copy features from client
+		for (auto& it : features)
+		{	
+			DWRITE_TYPOGRAPHIC_FEATURES localFeatures; 		
+			localFeatures.featureCount = it.featureCount; 
+			DWRITE_FONT_FEATURE* pLocalFeatures = new DWRITE_FONT_FEATURE[it.featureCount];
+
+			localFeatures.featureCount = it.featureCount; 
+			for(UINT32 i = 0; i < localFeatures.featureCount; i++ )
+			{
+				pLocalFeatures[i].nameTag = it.features[i].nameTag;
+				pLocalFeatures[i].parameter = it.features[i].parameter;
+			}
+			localFeatures.features = pLocalFeatures; 
+
+            features_.push_back(localFeatures); 
+		}
+
 		featureRangeLengths_ = featureRangeLengths; 
 
 		return S_OK;

@@ -162,11 +162,17 @@ void Buffer_::SetLocale(const char* locale)
 
 	std::string str = reinterpret_cast<const char*>(locale);
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	std::wstring openTypeLocale = converter.from_bytes(str);
+	std::wstring inputLocale = converter.from_bytes(str);
 
-	std::wstring windowsLocale; 
-	if (localeMap_->GetWindowsLocale(openTypeLocale, windowsLocale))
+	std::wstring windowsLocale; 	
+	if (localeMap_->GetWindowsLocale(inputLocale, windowsLocale))
+	{
 		locale_ = windowsLocale; 
+	}
+	else
+	{
+	    locale_ = inputLocale;
+	}	
 }
 
 const char* Buffer_::GetLocale()
@@ -329,7 +335,7 @@ bool  Font_::SetFeatures(uint32_t textLength, const std::vector<hb_feature_t>& f
 
 	// look though features and determine range boundries
 	for (auto& it : features)
-	{
+	{	
 		if (it.start < featureRangeBounderies.size())
 		{
 			featureRangeBounderies[it.start] = true;
@@ -381,7 +387,7 @@ bool  Font_::SetFeatures(uint32_t textLength, const std::vector<hb_feature_t>& f
 			// allocate an array for DWRITE_FONT_FEATURE
 			DWRITE_FONT_FEATURE* pLocalFeatures = new DWRITE_FONT_FEATURE[localFeatures.size()];
 			for (int j = 0; j < localFeatures.size(); j++)
-			{
+			{				
 				pLocalFeatures[j].nameTag = localFeatures[j].nameTag;
 				pLocalFeatures[j].parameter = localFeatures[j].parameter;
 			}
@@ -394,7 +400,7 @@ bool  Font_::SetFeatures(uint32_t textLength, const std::vector<hb_feature_t>& f
 
 			// Calculate featureRangeLengths
 			if (i > 0)
-			{
+			{	           
 				featureRangeLengths.push_back(featureRangeLength);
 				featureRangeLength = 0;
 			}
@@ -402,7 +408,7 @@ bool  Font_::SetFeatures(uint32_t textLength, const std::vector<hb_feature_t>& f
 
 		featureRangeLength++;
 	}
-
+   
 	// Final length
 	featureRangeLengths.push_back(featureRangeLength);
 	featureRangeLength = 0;
