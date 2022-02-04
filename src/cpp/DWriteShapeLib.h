@@ -80,6 +80,7 @@ public:
 
 	bool SetVariations(const std::vector<hb_variation_t> &axisValues); 
 	bool SetFeatures(uint32_t textLength, const std::vector<hb_feature_t>& features);
+	void ClearFeatures();
 
 	void GlyphToString(uint16_t glyphId, char* string, unsigned int size);
 
@@ -93,6 +94,9 @@ private:
 
 	float fontEmSize_ = 0; 
 	bool fontEmSizeSet_ = false; 
+
+	std::vector<DWRITE_TYPOGRAPHIC_FEATURES> typographicFeatures_;
+	std::vector<UINT32> featureRangeLengths_;
 };
 
 void Shape(Font_* font, Buffer_* buffer, const std::vector<hb_feature_t>& features);

@@ -259,11 +259,12 @@ bool Face_::Create(const char* fontData, unsigned int fontDataSize, unsigned int
 // 
 
 Font_::Font_(Face_* pface) : pface_(pface)
-{
+{	
 }
 
 Font_::~Font_()
 {
+	this->ClearFeatures();
 }
 
 bool Font_::Create()
@@ -321,8 +322,7 @@ bool Font_::SetVariations(const std::vector<hb_variation_t> &axisValues)
 
 bool  Font_::SetFeatures(uint32_t textLength, const std::vector<hb_feature_t>& features)
 {
-	std::vector<DWRITE_TYPOGRAPHIC_FEATURES> typographicFeatures;
-	std::vector<UINT32> featureRangeLengths;
+	this->ClearFeatures();
 
 	if (textLength == 0 || features.size() == 0)
 		return true; 
@@ -396,12 +396,12 @@ bool  Font_::SetFeatures(uint32_t textLength, const std::vector<hb_feature_t>& f
 			typographicFeature.featureCount = static_cast<UINT32>(localFeatures.size());
 			typographicFeature.features = pLocalFeatures;
 
-			typographicFeatures.push_back(typographicFeature);
+			typographicFeatures_.push_back(typographicFeature);
 
 			// Calculate featureRangeLengths
 			if (i > 0)
 			{	           
-				featureRangeLengths.push_back(featureRangeLength);
+				featureRangeLengths_.push_back(featureRangeLength);
 				featureRangeLength = 0;
 			}
 		}
@@ -410,16 +410,18 @@ bool  Font_::SetFeatures(uint32_t textLength, const std::vector<hb_feature_t>& f
 	}
    
 	// Final length
-	featureRangeLengths.push_back(featureRangeLength);
+	featureRangeLengths_.push_back(featureRangeLength);
 	featureRangeLength = 0;
 
-	assert(typographicFeatures.size() == featureRangeLengths.size());
+	assert(typographicFeatures_.size() == featureRangeLengths_.size());
 
-	// Set features in DWriteShape::Font object
-	HRESULT hr = pfont_->SetFontFeatures(typographicFeatures, featureRangeLengths);
+	return true; 
+}
 
+void Font_::ClearFeatures()
+{
 	// Clean up
-	for (auto& it : typographicFeatures)
+	for (auto& it : typographicFeatures_)
 	{
 		if (it.features != nullptr)
 		{
@@ -428,7 +430,8 @@ bool  Font_::SetFeatures(uint32_t textLength, const std::vector<hb_feature_t>& f
 		}
 	}
 
-	return hr == S_OK; 
+	typographicFeatures_.clear();
+	featureRangeLengths_.clear();
 }
 
 void Font_::GlyphToString(uint16_t glyphId, char* string, unsigned int size)
@@ -454,7 +457,7 @@ bool Font_::Shape(Buffer_* buffer)
 	float fontEmSize = this->GetFontEmSize(); 
 
 	// Shape DWriteShape::Font
-	HRESULT hr = pfont_->Shape(text, buffer->Locale(), fontEmSize, output);
+	HRESULT hr = pfont_->Shape(text, buffer->Locale(), fontEmSize, output, typographicFeatures_, featureRangeLengths_);
 
 	buffer->SetOutput(output); 
 

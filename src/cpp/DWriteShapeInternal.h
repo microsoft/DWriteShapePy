@@ -32,8 +32,7 @@ namespace DWriteShapeInternal
 		HRESULT SetVariationAxis(const std::vector<DWRITE_FONT_AXIS_VALUE>& axisValues);
 		std::string GlyphToString(uint16_t glyphId);
 
-		HRESULT SetFontFeatures(const std::vector<DWRITE_TYPOGRAPHIC_FEATURES>& features, const std::vector<UINT32>& featureRangeLengths);
-		HRESULT Shape(const std::wstring& text, const std::wstring& localeName, float fontEmSize, TextRunShapeOutput& output);
+		HRESULT Shape(const std::wstring& text, const std::wstring& localeName, float fontEmSize, TextRunShapeOutput& output, const std::vector<DWRITE_TYPOGRAPHIC_FEATURES>& features, const std::vector<UINT32>& featureRangeLengths);
 
 		UINT16 GetDesignUnitsPerEm();
 
@@ -41,9 +40,7 @@ namespace DWriteShapeInternal
 		Face& face_; 
 
 		std::vector<DWRITE_FONT_AXIS_VALUE> axisValues_;
-		std::vector<DWRITE_TYPOGRAPHIC_FEATURES> features_;
-		std::vector<UINT32> featureRangeLengths_;
-
+		
 		DWRITE_FONT_METRICS dwriteFontMetrics_ = { 0 };
 
 		IDWriteFontFaceReference1* fontFaceReference_ = nullptr;

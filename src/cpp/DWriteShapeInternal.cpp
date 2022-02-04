@@ -58,16 +58,6 @@ namespace DWriteShapeInternal
 
 	Font::~Font()
 	{		
-		 // Clear any previous features
-		for (auto& it : features_)
-		{
-			if(it.features != nullptr)
-			{
-			    delete[] it.features; 
-			}
-		}
-		features_.clear();
-
 		SafeRelease(&fontFaceReference_);
 		SafeRelease(&fontFace_);	
 
@@ -117,50 +107,13 @@ namespace DWriteShapeInternal
 		return S_OK; 
 	}
 
-	HRESULT Font::SetFontFeatures(const std::vector<DWRITE_TYPOGRAPHIC_FEATURES>& features, const std::vector<UINT32>& featureRangeLengths)
-	{
-		fontRealized_ = false; 
-
-        // Clear any previous features
-		for (auto& it : features_)
-		{
-			if(it.features != nullptr)
-			{
-			    delete[] it.features; 
-			}
-		}
-		features_.clear();
-
-        // Copy features from client
-		for (auto& it : features)
-		{	
-			DWRITE_TYPOGRAPHIC_FEATURES localFeatures; 		
-			localFeatures.featureCount = it.featureCount; 
-			DWRITE_FONT_FEATURE* pLocalFeatures = new DWRITE_FONT_FEATURE[it.featureCount];
-
-			localFeatures.featureCount = it.featureCount; 
-			for(UINT32 i = 0; i < localFeatures.featureCount; i++ )
-			{
-				pLocalFeatures[i].nameTag = it.features[i].nameTag;
-				pLocalFeatures[i].parameter = it.features[i].parameter;
-			}
-			localFeatures.features = pLocalFeatures; 
-
-            features_.push_back(localFeatures); 
-		}
-
-		featureRangeLengths_ = featureRangeLengths; 
-
-		return S_OK;
-	}
-
-	HRESULT Font::Shape(const std::wstring& text, const std::wstring& localeName, float fontEmSize, TextRunShapeOutput& output)
+	HRESULT Font::Shape(const std::wstring& text, const std::wstring& localeName, float fontEmSize, TextRunShapeOutput& output, const std::vector<DWRITE_TYPOGRAPHIC_FEATURES>& features, const std::vector<UINT32>& featureRangeLengths)
 	{
 		TextRun* textRun = nullptr;
 
 		IFR(RealizeFont()); 
 
-		textRun = new TextRun(face_.dwriteFactory_, fontFace_, face_.textAnalyzer_, features_, featureRangeLengths_);
+		textRun = new TextRun(face_.dwriteFactory_, fontFace_, face_.textAnalyzer_, features, featureRangeLengths);
 
 		// Set text and locale
 		IFR(textRun->SetText(text, localeName));		
