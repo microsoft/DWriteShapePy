@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/component-detection-manifest.json",
   "registrations": [
     {
       "component": {
@@ -38,13 +39,9 @@
     {
       "component": {
         "type": "pip",
-        "pip": {
-          "name": "Cython",
-          "version": "0.20.21"
-        }
+        "pip": { "name": "Cython", "version": "0.20.21" }
       },
       "DevelopmentDependency": true
     }
-
   ]
 }
