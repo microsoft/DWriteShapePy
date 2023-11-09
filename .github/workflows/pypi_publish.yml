@@ -32,7 +32,7 @@ jobs:
         uses: actions/setup-python@v2.2.1
         with:
          # Version range or exact version of a Python version to use, using SemVer's version range syntax.
-         python-version: "3.x"
+         python-version: "3.11"
          # The target architecture (x86, x64) of the Python interpreter.
          architecture: "x64"
          
