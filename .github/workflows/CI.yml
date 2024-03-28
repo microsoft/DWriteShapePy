@@ -31,13 +31,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       
       - name: Setup Python
-        uses: actions/setup-python@v2.2.1
+        uses: actions/setup-python@v5
         with:
          # Version range or exact version of a Python version to use, using SemVer's version range syntax.
-         python-version: "3.11"
+         python-version: "3.12"
          # The target architecture (x86, x64) of the Python interpreter.
          architecture: "x64"
          
@@ -52,7 +52,7 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         
       - name: Upload Wheels
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           path: ./wheelhouse/*.whl
           
@@ -60,7 +60,7 @@ jobs:
         run: python setup.py sdist
           
       - name: Upload Source Distribution
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           path: ./dist/*.zip
 

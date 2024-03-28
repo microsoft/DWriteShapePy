@@ -8,30 +8,40 @@ from Cython.Build import cythonize
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-define_macros = [('UNICODE', 1), ('_UNICODE', 1)]
+define_macros = [("UNICODE", 1), ("_UNICODE", 1)]
 linetrace = False
-if int(os.environ.get('CYTHON_LINETRACE', '0')):
+if int(os.environ.get("CYTHON_LINETRACE", "0")):
     linetrace = True
-    define_macros.append(('CYTHON_TRACE_NOGIL', '1'))
+    define_macros.append(("CYTHON_TRACE_NOGIL", "1"))
 
-extra_compile_args = ['/Zc:wchar_t']
+extra_compile_args = ["/Zc:wchar_t"]
 
-if platform.system() != 'Windows':
-    extra_compile_args.append('-std=c++11')
+if platform.system() != "Windows":
+    extra_compile_args.append("-std=c++11")
 
 extension = Extension(
-    'dwriteshapepy.dwriteshape',
+    "dwriteshapepy.dwriteshape",
     define_macros=define_macros,
     include_dirs=["."],
-    sources=['src/dwriteshapepy/dwriteshape.pyx','src/cpp/hb-common.cc','src/cpp/hb-number.cc','src/cpp/dwriteshapeInternal.cpp','src/cpp/dwriteshapelib.cpp', 'src/cpp/locale.cpp','src/cpp/posttable.cpp','src/cpp/textanalysis.cpp', 'src/cpp/textrun.cpp' ],
-    language='c++',
-    libraries=['dwrite'],
+    sources=[
+        "src/dwriteshapepy/dwriteshape.pyx",
+        "src/cpp/hb-common.cc",
+        "src/cpp/hb-number.cc",
+        "src/cpp/dwriteshapeInternal.cpp",
+        "src/cpp/dwriteshapelib.cpp",
+        "src/cpp/locale.cpp",
+        "src/cpp/posttable.cpp",
+        "src/cpp/textanalysis.cpp",
+        "src/cpp/textrun.cpp",
+    ],
+    language="c++",
+    libraries=["dwrite"],
     extra_compile_args=extra_compile_args,
 )
 
 setup(
-    name="dwriteshapepy", 
-    version= '1.0.8',
+    name="dwriteshapepy",
+    version="1.0.9",
     description="Python extension for Windows DirectWrite shaping, modeled after uharfbuzz ",
     author="Paul Linnerud",
     author_email="paulli@microsoft.com",
@@ -46,12 +56,10 @@ setup(
     packages=["dwriteshapepy"],
     zip_safe=False,
     python_requires=">=3.7",
-    ext_modules = cythonize(
+    ext_modules=cythonize(
         extension,
-        annotate=bool(int(os.environ.get('CYTHON_ANNOTATE', '0'))),
+        annotate=bool(int(os.environ.get("CYTHON_ANNOTATE", "0"))),
         compiler_directives={"linetrace": linetrace},
     ),
-    entry_points={
-        'console_scripts': [ "dw-shape = dwriteshapepy.__main__:main" ]
-    }
+    entry_points={"console_scripts": ["dw-shape = dwriteshapepy.__main__:main"]},
 )
