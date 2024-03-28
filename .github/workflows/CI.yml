@@ -55,6 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./wheelhouse/*.whl
+          name: wheels-artifact
           
       - name: Build Source Distribution 
         run: python setup.py sdist
@@ -63,5 +64,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./dist/*.zip
+          name: source-dist-artifact
 
       
