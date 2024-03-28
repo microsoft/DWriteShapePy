@@ -50,6 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./wheelhouse/*.whl
+          name: wheels-artifact
           
       - name: Build Source Distribution 
         run: python setup.py sdist
@@ -58,6 +59,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./dist/*.zip
+          name: source-dist-artifact
 
   upload_pypi:
      needs: [build-n-publish]
@@ -66,7 +68,12 @@ jobs:
      steps:
       - uses: actions/download-artifact@v4
         with:
-          name: artifact
+          name: wheels-artifact
+          path: dist
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: source-dist-artifact
           path: dist
 
       - uses: pypa/gh-action-pypi-publish@release/v1
