@@ -53,12 +53,14 @@ jobs:
           name: wheels-artifact
           
       - name: Build Source Distribution 
-        run: python setup.py sdist
+        # Updated to ensure the source distribution is created with the .tar.gz extension
+        run: python setup.py sdist --formats=gztar
           
       - name: Upload Source Distribution
         uses: actions/upload-artifact@v4
         with:
-          path: ./dist/*.zip
+          # Updated the path to match the new .tar.gz file extension
+          path: ./dist/*.tar.gz
           name: source-dist-artifact
 
   upload_pypi:
@@ -83,4 +85,3 @@ jobs:
 
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-      
