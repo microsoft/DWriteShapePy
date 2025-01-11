@@ -55,7 +55,7 @@ setup(
     package_dir={"": "src"},
     packages=["dwriteshapepy"],
     zip_safe=False,
-    python_requires=">=3.7",
+    python_requires=">=3.9",
     ext_modules=cythonize(
         extension,
         annotate=bool(int(os.environ.get("CYTHON_ANNOTATE", "0"))),

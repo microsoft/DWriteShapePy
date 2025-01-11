@@ -6,9 +6,9 @@ name: Build and Test
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: [ main, 'work/**' ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, 'work/**' ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -21,10 +21,10 @@ jobs:
     runs-on: windows-2019
     
     env:
-      CIBW_BUILD: cp37-win_amd64 cp38-win_amd64 cp39-win_amd64 cp310-win_amd64 cp311-win_amd64 cp312-win_amd64
+      CIBW_BUILD: cp39-win_amd64 cp310-win_amd64 cp311-win_amd64 cp312-win_amd64 cp313-win_amd64
       CIBW_ARCHS: AMD64
       CIBW_PLATFORM: windows
-      CIBW_PROJECT_REQUIRES_PYTHON: ">=3.7"
+      CIBW_PROJECT_REQUIRES_PYTHON: ">=3.9"
       CIBW_TEST_REQUIRES: pytest
       CIBW_TEST_COMMAND: "pytest {project}/tests"
 
