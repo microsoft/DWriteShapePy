@@ -52,7 +52,7 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         
       - name: Upload Wheels
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           path: ./wheelhouse/*.whl
           name: wheels-artifact
@@ -62,7 +62,7 @@ jobs:
         run: python setup.py sdist --formats=gztar
           
       - name: Upload Source Distribution
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           # Updated the path to match the new .tar.gz file extension
           path: ./dist/*.tar.gz
